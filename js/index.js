@@ -1,5 +1,4 @@
-// Inicia as variáveis utilizadas no processo
-let
+let symbols = ['code', 'code', 'bug', 'bug', 'user-secret', 'user-secret', 'terminal', 'terminal', 'globe', 'globe', 'laptop', 'laptop', 'server', 'server', 'power-off', 'power-off'],
 	opened = [],
 	match = 0,
 	Clicks = 0,
@@ -15,82 +14,7 @@ let
 	totalbox = symbols.length / 2,
 	rank3stars = 10,
 	rank2stars = 16,
-	rank1stars = 20,
-	symbols = ['code', 'code', 'bug', 'bug', 'user-secret', 'user-secret', 'terminal', 'terminal', 'globe', 'globe', 'laptop', 'laptop', 'server', 'server', 'power-off', 'power-off']
-
-// Reinicia o jogo
-	$PlayAgain.bind('click', function () {
-		swal({
-			allowEscapeKey: false,
-			allowOutsideClick: false,
-			title: 'Gostaria de reiniciar o jogo ?',
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#02ccba',
-			cancelButtonColor: '#f95c3c',
-			confirmButtonText: 'Reiniciar',
-		}).then(function (isConfirm) {
-			if (isConfirm) {
-				initGame();
-			}
-		})
-	});
-
-	var addboxListener = function () {
-
-		$Playground.find('.box').bind('click', function () {
-			var $this = $(this)
-			if ($this.hasClass('show') || $this.hasClass('match')) { return true; }
-			var box = $this.context.innerHTML;
-			$this.addClass('open show');
-			opened.push(box);
-
-
-			if (opened.length > 1) {
-				if (box === opened[0]) {
-					$Playground.find('.open').addClass('match animated infinite rubberBand');
-					setTimeout(function () {
-						$Playground.find('.match').removeClass('open show animated infinite rubberBand');
-					}, delay);
-					match++;
-				} else {
-					$Playground.find('.open').addClass('notmatch animated infinite wobble');
-					setTimeout(function () {
-						$Playground.find('.open').removeClass('animated infinite wobble');
-					}, delay / 1.1);
-					setTimeout(function () {
-						$Playground.find('.open').removeClass('open show notmatch animated infinite wobble');
-					}, delay);
-				}
-				opened = [];
-				Clicks++;
-				setRating(Clicks);
-				$moveNum.html(Clicks);
-			}
-
-			if (totalbox === match) {
-				setRating(Clicks);
-				var score = setRating(Clicks).score;
-				setTimeout(function () {
-					endGame(Clicks, Segundos);
-				}, 500);
-			}
-		});
-	};
-
-
-	function initTime() {
-		currentseconds = setInterval(function () {
-			$seconds.text(`${segundos}`)
-			second = second + 1
-		}, 1000);
-	}
-
-	function resetseconds(seconds) {
-		if (seconds) {
-			clearInterval(seconds);
-		}
-	}
+	rank1stars = 20;
 
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
@@ -105,6 +29,7 @@ function shuffle(array) {
 
 	return array;
 }
+
 
 function initGame() {
 	var boxes = shuffle(symbols);
@@ -124,7 +49,7 @@ function initGame() {
 	initTime();
 };
 
-// Função que controla o número de estrelas do jogador
+
 function setRating(moves) {
 	var rating = 3;
 	if (moves > rank3stars && moves < rank2stars) {
@@ -140,21 +65,96 @@ function setRating(moves) {
 	return { score: rating };
 };
 
-
 function endGame(Clicks, score) {
 	swal({
 		allowEscapeKey: false,
 		allowOutsideClick: false,
-		title: 'Parabéns! Você ganhou!',
-		text: 'Com ' + Clicks + ' movimentos e ' + score + ' estrelas em ' + second + ' segundos.',
+		title: 'Parabéns! Você venceu!',
+		text: 'Com ' + Clicks + ' Clicks e ' + score + ' estrelas em ' + second + ' segundos.',
 		type: 'Sucesso',
 		confirmButtonColor: '#02ccba',
-		confirmButtonText: 'Jogue novamente!'
+		confirmButtonText: 'Jogar novamente !'
 	}).then(function (isConfirm) {
 		if (isConfirm) {
 			initGame();
 		}
 	})
+}
+
+$PlayAgain.bind('click', function () {
+	swal({
+		allowEscapeKey: false,
+		allowOutsideClick: false,
+		title: 'Reiniciar o Jogo ?',
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#02ccba',
+		cancelButtonColor: '#f95c3c',
+		confirmButtonText: 'Reiniciar',
+	}).then(function (isConfirm) {
+		if (isConfirm) {
+			initGame();
+		}
+	})
+});
+
+var addboxListener = function () {
+
+
+	$Playground.find('.box').bind('click', function () {
+		var $this = $(this)
+
+		if ($this.hasClass('show') || $this.hasClass('match')) { return true; }
+
+		var box = $this.context.innerHTML;
+		$this.addClass('open show');
+		opened.push(box);
+
+		if (opened.length > 1) {
+			if (box === opened[0]) {
+				$Playground.find('.open').addClass('match animated infinite rubberBand');
+				setTimeout(function () {
+					$Playground.find('.match').removeClass('open show animated infinite rubberBand');
+				}, delay);
+				match++;
+			} else {
+				$Playground.find('.open').addClass('notmatch animated infinite wobble');
+				setTimeout(function () {
+					$Playground.find('.open').removeClass('animated infinite wobble');
+				}, delay / 1.5);
+				setTimeout(function () {
+					$Playground.find('.open').removeClass('open show notmatch animated infinite wobble');
+				}, delay);
+			}
+			opened = [];
+			Clicks++;
+			setRating(Clicks);
+			$moveNum.html(Clicks);
+		}
+
+
+		if (totalbox === match) {
+			setRating(Clicks);
+			var score = setRating(Clicks).score;
+			setTimeout(function () {
+				endGame(Clicks, score);
+			}, 500);
+		}
+	});
+};
+
+
+function initTime() {
+	currentseconds = setInterval(function () {
+		$seconds.text(`${second}`)
+		second = second + 1
+	}, 1000);
+}
+
+function resetseconds(seconds) {
+	if (seconds) {
+		clearInterval(seconds);
+	}
 }
 
 initGame();

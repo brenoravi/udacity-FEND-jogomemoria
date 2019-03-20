@@ -1,3 +1,4 @@
+// Instancia as variáveis que serão utilizadas no processo
 let symbols = ['code', 'code', 'bug', 'bug', 'user-secret', 'user-secret', 'terminal', 'terminal', 'globe', 'globe', 'laptop', 'laptop', 'server', 'server', 'power-off', 'power-off'],
 	opened = [],
 	match = 0,
@@ -16,6 +17,7 @@ let symbols = ['code', 'code', 'bug', 'bug', 'user-secret', 'user-secret', 'term
 	rank2stars = 16,
 	rank1stars = 20;
 
+// Função responsável por randomizar as cartas e pelo controle dos itens do array
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -30,12 +32,13 @@ function shuffle(array) {
 	return array;
 }
 
-
+// GAME ON ! Atribui valor default as variáveis, e faz o controle do painel de jogadas/rating e tempo 
 function initGame() {
 	var boxes = shuffle(symbols);
 	$Playground.empty();
 	match = 0;
 	Clicks = 0;
+	opened = [];
 	$moveNum.text('0');
 	$ratingStars.removeClass('fa-thumbs-down').addClass('fa-star');
 	for (var i = 0; i < boxes.length; i++) {
@@ -49,7 +52,7 @@ function initGame() {
 	initTime();
 };
 
-
+// Responsável por controlar as estrelas(rating) do jogador
 function setRating(moves) {
 	var rating = 3;
 	if (moves > rank3stars && moves < rank2stars) {
@@ -65,6 +68,7 @@ function setRating(moves) {
 	return { score: rating };
 };
 
+// Responsável pela tela de fim de jogo que é mostrada ao completar o puzzle
 function endGame(Clicks, score) {
 	swal({
 		allowEscapeKey: false,
@@ -81,6 +85,7 @@ function endGame(Clicks, score) {
 	})
 }
 
+// Responsável pela tela do botão que reinicia o jogo 
 $PlayAgain.bind('click', function () {
 	swal({
 		allowEscapeKey: false,
@@ -98,6 +103,7 @@ $PlayAgain.bind('click', function () {
 	})
 });
 
+// Responsável pelos eventos e funcionamento do jogo
 var addboxListener = function () {
 
 
@@ -143,7 +149,7 @@ var addboxListener = function () {
 	});
 };
 
-
+// Timer
 function initTime() {
 	currentseconds = setInterval(function () {
 		$seconds.text(`${second}`)
@@ -151,6 +157,7 @@ function initTime() {
 	}, 1000);
 }
 
+// Reseta o timer
 function resetseconds(seconds) {
 	if (seconds) {
 		clearInterval(seconds);

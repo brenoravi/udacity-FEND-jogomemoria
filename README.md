@@ -7,7 +7,7 @@ O jogador deve encontrar todos os pares de cartas, revelando as cartas de duas e
 
 **Desafio**
 Encontrar todos os pares com a menor quantidade de movimentos.
-
+![enter image description here](https://i.imgur.com/dceOH27.jpg)
 **Pontuação**
 
  - 1 estrela por encontrar todos os pares; 

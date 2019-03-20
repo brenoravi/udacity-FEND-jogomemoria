@@ -13,3 +13,7 @@ Encontrar todos os pares com a menor quantidade de movimentos.
  - 1 estrela por encontrar todos os pares; 
  - 2 estrelas por encontrar todos os pares em até 16 movimentos. 
  - 3 estrelas por encontrar todos os pares em até 10 movimentos.
+
+**Dependências**
+- Libs: Jquery
+- Recursos: Font-Awesome, SweetAlert, Animate.CSS
